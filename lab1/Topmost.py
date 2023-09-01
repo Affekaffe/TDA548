@@ -5,4 +5,5 @@ test = wordfreq.tokenize(input("Enter String: "))
 print(test)
 file = open("examples/article1.txt", encoding="utf-8")
 
-#detta är ett test
+print(1)
+#gurka
