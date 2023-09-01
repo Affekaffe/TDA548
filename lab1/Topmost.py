@@ -1,5 +1,5 @@
 import wordfreq
-#test = wordfreq.tokenize("abc, Abbb det finns ett ord")
+#test = wordfreq.tokenize("abc, Abbbb det finns ett ord")
 #print(test)
 test = wordfreq.tokenize(input("Enter String: "))
 print(test)
