@@ -6,4 +6,4 @@ print(test)
 file = open("examples/article1.txt", encoding="utf-8")
 
 print(1)
-#gurkayoooo
+#gurka yoooo Ok whazzup
