@@ -1,8 +1,11 @@
 import wordfreq
-#test = wordfreq.tokenize("abc, Abbbb det finns ett ord")
-#print(test)
-#test = wordfreq.tokenize(input("Enter String: "))
-#print(test)
-file = open("examples/test.txt")
 
-#gurka yoooo Ok whazzup
+def fileToLineList(link):
+    #open the file and read the contents line by line
+    file = open(link)
+    lines = file.readlines()
+    file.close()
+    return lines
+
+lines2 = fileToLineList("lab1/examples/article1.txt")
+words2 = wordfreq.tokenize(lines2)
