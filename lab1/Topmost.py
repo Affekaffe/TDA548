@@ -9,5 +9,3 @@ def fileToLineList(link):
 
 lines2 = fileToLineList("lab1/examples/article1.txt")
 words2 = wordfreq.tokenize(lines2)
-
-print(words2)
