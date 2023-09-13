@@ -1,33 +1,42 @@
 import wordfreq, sys, urllib.request
 
-def fileToLineList(link):
-    #open the file and read the contents line by line
-    file = open(link)
+# open the file and read the contents line by line
+def file_to_line_list(path):
+    file = open(path, encoding = "utf-8")
     data = file.read()
     lines = data.split("\n")
     file.close()
     return lines
 
 def main():
-    #the lab is talking about som stopwords that should not be included and they have those on index 1
-    index = 1
-    lines = []
 
-    #if no arguments were specified just exit the function
-    if(sys.argv.__len__() <= 1): return
+    # if too few arguments were specified just exit the function
+    if(sys.argv.__len__() <= 1): 
+        return
 
-    #if we have a web link read it
-    if(sys.argv[index].startswith("https://")or sys.argv[index].startswith("http://")):
-        respons = urllib.request.urlopen(sys.argv[index])
-        lines = respons.read().decode("utf8").splitlines()
-        
-    #if it's not from the web it's a local file
-    else:
-        lines = fileToLineList("lab1/" + sys.argv[index])
+    ignored_words_id = 1
+    path_id = 2
+    top_n_id = 3
+
+    # get ignored words from 1st argument
+    ignored_words = file_to_line_list("lab1/" + sys.argv[ignored_words_id])
+
+    # get text from 2nd argument
+    # if we have a web link read it
+    if(sys.argv[path_id].startswith("https://") or sys.argv[path_id].startswith("http://")):
+        response = urllib.request.urlopen(sys.argv[path_id])
+        lines = response.read().decode("utf8").splitlines()
+    else: # if it's not from the web it's a local file
+        lines = file_to_line_list("lab1/" + sys.argv[path_id]) 
+    
+    # get number of words from 3rd argument
+    top_n = int(sys.argv[top_n_id])
+
+    # tokenize, countWords and printTopMost  
     words = wordfreq.tokenize(lines)
-    print(words)
-
+    word_count = wordfreq.countWords(words, ignored_words)
+    wordfreq.printTopMost(word_count, top_n)
 main()
 
-#call from the terminal
-#py lab1/Topmost.py <url or link to file>
+# call from the terminal:
+# py lab1/Topmost.py <ignored words> <url or path to file> <nr of words to print>
