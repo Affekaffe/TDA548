@@ -16,7 +16,7 @@ def main():
     #if no arguments were specified just exit the function
     if(sys.argv.__len__() <= 1): return
 
-    #if we have a wev link read it
+    #if we have a web link read it
     if(sys.argv[index].startswith("https://")or sys.argv[index].startswith("http://")):
         respons = urllib.request.urlopen(sys.argv[index])
         lines = respons.read().decode("utf8").splitlines()
@@ -28,7 +28,6 @@ def main():
     print(words)
 
 main()
-#lines2 = fileToLineList("lab1/examples/article1.txt")
-#words2 = wordfreq.tokenize(lines2)
-#
-#print(words2)
+
+#call from the terminal
+#py lab1/Topmost.py <url or link to file>
