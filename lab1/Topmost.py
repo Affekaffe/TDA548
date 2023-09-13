@@ -1,8 +1,8 @@
 import wordfreq, sys, urllib.request
 
-# open the file and read the contents line by line
-def file_to_line_list(path):
-    file = open(path, encoding = "utf-8")
+def fileToLineList(link):
+    #open the file and read the contents line by line
+    file = open(link, encoding="utf-8")
     data = file.read()
     lines = data.split("\n")
     file.close()
