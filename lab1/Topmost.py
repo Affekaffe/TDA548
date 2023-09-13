@@ -2,7 +2,7 @@ import wordfreq, sys, urllib.request
 
 def fileToLineList(link):
     #open the file and read the contents line by line
-    file = open(link)
+    file = open(link, encoding="utf-8")
     data = file.read()
     lines = data.split("\n")
     file.close()
@@ -25,7 +25,9 @@ def main():
     else:
         lines = fileToLineList("lab1/" + sys.argv[index])
     words = wordfreq.tokenize(lines)
-    print(words)
+    stopwords = fileToLineList("lab1/eng_stopwords.txt")
+    wordCount = wordfreq.countWords(words, stopwords)
+    print(wordCount)
 
 main()
 
