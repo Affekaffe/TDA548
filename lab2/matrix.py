@@ -23,7 +23,8 @@ def invert(M):
     det = a*d - b*c # determinant
     return [[d/det,-b/det],[-c/det, a/det]]
 
-def loadtxt(path):
+# loads matrix from txt
+def loadtxt(path): 
     file = open("lab2/"+path)
     lines = file.readlines()
 
