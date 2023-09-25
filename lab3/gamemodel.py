@@ -7,13 +7,16 @@ import random
 class Game:
     """ Create a game with a given size of cannon (length of sides) and projectiles (radius) """
     def __init__(self, cannonSize, ballSize):
+        self.P1 = Player(self, "blue", -90, False)
+        self.P2 = Player(self, "red", 90, True)
+        self.CurrentPlayerIndex = 0
         # TODO: "pass" means the constructor does nothing. Clearly it should be doing something.
         # HINT: This constructor needs to create two players according to the rules specified in the assignment text
-        pass 
+        
 
     """ A list containing both players """
     def getPlayers(self):
-        return [] #TODO: this is just a dummy value
+        return [self.P1, self.P2]
 
     """ The height/width of the cannon """
     def getCannonSize(self):
@@ -25,19 +28,23 @@ class Game:
 
     """ The current player, i.e. the player whose turn it is """
     def getCurrentPlayer(self):
-        return None #TODO: this is just a dummy value
+        return self.getPlayers()[self.getCurrentPlayerNumber()]
 
     """ The opponent of the current player """
     def getOtherPlayer(self):
-        return None #TODO: this is just a dummy value
+        if self.getCurrentPlayerNumber() == 0:
+            return self.getPlayers()[1]
+        elif self.getCurrentPlayerNumber() == 1:
+            return self.getPlayers()[0]
+        
     
     """ The number (0 or 1) of the current player. This should be the position of the current player in getPlayers(). """
     def getCurrentPlayerNumber(self):
-        return 0 #TODO: this is just a dummy value
+        return self.CurrentPlayerIndex
     
     """ Switch active player """
     def nextPlayer(self):
-        pass #TODO: this should do something instead of nothing
+        self.CurrentPlayerIndex = not self.CurrentPlayerIndex
 
     """ Set the current wind speed, only used for testing """
     def setCurrentWind(self, wind):
@@ -58,7 +65,14 @@ class Game:
 class Player:
    #TODO: You need to create a constructor here. 
    #HINT: It should probably take the Game that creates it as parameter and some additional properties that differ between players (like firing-direction, position and color)
-    
+    def __init__(self, game, color, position_x, is_left):
+        self.game = game
+        self.color = color
+        self.position_x = position_x
+        self.score = 0
+        self.is_left = is_left
+        self.last_fired_angle_velocity = (45, 40)
+
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
     def fire(self, angle, velocity):
         # The projectile should start in the middle of the cannon of the firing player
@@ -77,23 +91,26 @@ class Player:
 
     """ The current score of this player """
     def getScore(self):
-        return 0 #TODO: this is just a dummy value
+        return self.score
 
     """ Increase the score of this player by 1."""
-    def increaseScore(self):
-        pass #TODO: this should do something instead of nothing
+    def increaseScore(self, score_to_add = 1):
+        self.score += score_to_add
 
     """ Returns the color of this player (a string)"""
     def getColor(self):
-        return "DUMMY COLOR" #TODO: this is just a dummy value
+        return self.color 
 
     """ The x-position of the centre of this players cannon """
     def getX(self):
-        return 0 #TODO: this is just a dummy value
+        return self.position_x
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
-        return 0, 0 #TODO: this is just a dummy value 
+        return self.last_fired_angle_velocity #TODO: this is just a dummy value 
+
+    def doNothing(self):
+        pass # This should not do anything
 
 
 
