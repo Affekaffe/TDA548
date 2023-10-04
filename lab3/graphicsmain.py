@@ -1,6 +1,7 @@
 from gamemodel import *
 from graphics import *
 
+#print('g̶̨̛̛͈̪̠̞̩͉͔̮̫͂̅͌̓͑͛̏͒́̊͌̆̀̃̀̍̊̽̃̈́̽̉̽̒̾̊̿̾̏̓͛̏̊͑̈́̔̚̚͘͝͝ȧ̸͚̱͕̲͙̙͓̭͉͇̬͇̪̫̦̹̦̪̀̂̄͜͜m̵̧̨̦̭͈͇̜̮̗̬̤̬̤͔͎̺͕̗̥̩͈̻̳̭̲̭̜̻̼͚̻͎̺̞͙̲̙̗̰̪͊͗̈͌̑̇͐̌̈́̔̿̅̾͊̈͜ͅͅẻ̶̢̧̡̨̛̛̛̲̜̜̩̦͓͇̬͍̜̘̖͉̗̠̱̟̥͎͇͓͉̳̫̻̮̮͔͕̪̙͓͇͍̟̰͉͊͌̔͋̿̅̽̔͌́̌́͗͒͂́͊̀̎̋̋̆̕̕͜͜͝ͅ ̸̧̛̱̠̭̠̖͍̜̤͙̥͕̭̟͖̬͛́͒̉̄̿͒̉̎̊̓̈́̋͂͐͒͑̾̃̋̇̈́̑̃͗͒̇̐̀̐͂̉̕̕̚͜͜͠͠͝͝į̸̨̨̢̨̧̡̛̳͔̯̯͈͕̗̼͖͙̫̠̻̭̙̜̭͚͎̝̥̟̟͙̘̖̟͎̰̟̣̪͖̘͔͈̖͎̞̆́́̊̌̑͗̉͆̇̐̾̄͂͋̾̽͑̈́͌̓̈́̾̽̓̂͌͂̒͐̄̈́͂̂́̐͒͆̅̃͌̽̍͘͘͜͝ͅň̶̨̨̡͔̫̱͚͎̗͓̺̬̱̲͎͕̬̰͈͈͖͔̣̼͍̯̦͇̹͎͚̭͙̈́́͌̋͘͜ͅͅĭ̷̳͈̻̮͎̜̱̍͒̀̌̆͒͆̾̀̐͑͊̄̔̄͛͋̋̈̚͘͠t̶̨̞͖͇͛͂̄̊͌̇̃̈͌̚͝͝ͅí̴̢̜͈͔̱̤̖̯̎͋̂͒̄̑̏͒͐͋̒ͅą̶̧̡͇̱̘̬͔̼͇̹̫͎̮̗̝͙̖̜̥̙͎͔͉͖͉̣͙̙̟̦̤̩̙̆͌͊̉̔̀̑̆͑́͋̾͒͛̚͝t̵̡̡̢̤̗̠̮̰̐ȩ̸̢̛͚͙͙̮͈̺͍͕̖̜̪͖̠̞͚͕͇́̈́̀̍̔͋̿͑͆̓̑̀͑̌̽͋̓̃̿̒̓͛̾̉̐͌͛͘̕͘͜͝͝d̶̡̨̡̛̛̛̛͕͍̭̗̝̤̬̰̗̪̮̥̘̦͉̘̻̲̗͙͎͍͌̅̓̿̔̊̆̉̿̆̌̂͗̇͐̒̓̀̂̀̈̈́̓̎̂͌̀͆͘͝͝͠ͅ')
 
 class GameGraphics:
     def __init__(self, game):
@@ -16,7 +17,7 @@ class GameGraphics:
         Line(Point(-110,0),Point(110,0))._draw(self.win, {}) #draws a line from x -110 to 110
         self.draw_cannons = [self.drawCanon(0), self.drawCanon(1)]
         self.draw_scores  = [self.drawScore(0), self.drawScore(1)]
-        self.draw_projs   = [None, None]
+        self.draw_projs   = [None,None ]
 
     def drawCanon(self,playerNr):
         # draw the cannon
@@ -25,12 +26,11 @@ class GameGraphics:
         color = player.getColor()
         self.game.getCannonSize()
         rect = Rectangle(Point(x - self.game.getCannonSize()/2, 0),Point(x + self.game.getCannonSize()/2, self.game.getCannonSize()))
-        rect._draw(self.win, {})
         rect.setFill(color)
-        # TODO: draw a square with the size of the cannon with the color
+        return rect.draw(self.win)
+        # draw a square with the size of the cannon with the color
         # and the position of the player with number playerNr.
         # After the drawing, return the rectangle object.
-        #return self.Rectangle()
 
     def drawScore(self,playerNr):
         # draw the score
@@ -38,9 +38,10 @@ class GameGraphics:
         # for player number playerNr. The text should be placed under
         # the corresponding cannon. After the drawing,
         # return the text object.
-        p = self.game.getPlayers()[playerNr]
-        text = Text(Point(p.getX(), 50), "Score: " + str(p.getScore()))
-        return text
+        player = self.game.getPlayers()[playerNr]
+        text = Text(Point(player.getX(), -5), "Score: " + str(player.getScore()))
+        return text.draw(self.win)
+        
 
     def fire(self, angle, vel):
         player = self.game.getCurrentPlayer()
@@ -48,13 +49,20 @@ class GameGraphics:
 
         circle_X = proj.getX()
         circle_Y = proj.getY()
+        
 
         # TODO: If the circle for the projectile for the current player
         # is not None, undraw it!
+        if(self.draw_projs[player.game.getCurrentPlayerNumber()] != None): self.draw_projs[player.game.getCurrentPlayerNumber()].undraw()
 
         # draw the projectile (ball/circle)
         # TODO: Create and draw a new circle with the coordinates of
         # the projectile.
+        BALLS = player.game.getBallSize()
+        circle = Circle(Point(circle_X, circle_Y), BALLS) 
+        self.draw_projs[player.game.getCurrentPlayerNumber()] = circle
+        circle.setFill("black")
+        circle.draw(self.win)
 
         while proj.isMoving():
             proj.update(1/50)
@@ -70,11 +78,13 @@ class GameGraphics:
         return proj
 
     def updateScore(self,playerNr):
-        # update the score on the screen
-        # TODO: undraw the old text, create and draw a new text
-        pass
+        self.draw_scores[playerNr].undraw()
+        self.drawScore(playerNr)
+        
 
     def play(self):
+        self.game.newRound()
+        
         while True:
             player = self.game.getCurrentPlayer()
             oldAngle,oldVel = player.getAim()
@@ -100,6 +110,7 @@ class GameGraphics:
                 self.game.newRound()
 
             self.game.nextPlayer()
+    def explotion(self)
 
 
 class InputDialog:
