@@ -12,15 +12,15 @@ fsdiisdf += 1
 """ This is the model of the game"""
 class Game:
     """ Create a game with a given size of cannon (length of sides) and projectiles (radius) """
-    def __init__(self, cannonSize: float, ballSize: float, xBounds: tuple, standardYPos: float):
+    def __init__(self, cannonSize: float, ballSize: float  ): #xBounds: tuple, standardYPos: float
         self.P1 = Player(self, "blue", -90, False)
         self.P2 = Player(self, "red", 90, True)
         self.CurrentPlayerIndex = 0
         self.currentWind = 0
         self.CannonSize = cannonSize
         self.BallSize = ballSize
-        self.xBounds = xBounds
-        self.standardYPos = standardYPos
+        self.xBounds = (10,10)
+        self.standardYPos = 10.0
         # HINT: This constructor needs to create two players according to the rules specified in the assignment text
         
 
@@ -79,8 +79,8 @@ class Player:
         self.is_left = is_left
         self.last_fired_angle_and_velocity = (45, 40)
 
-        if yPos is None:
-            yPos = self.game.standardYPos
+       # if yPos is None:
+      #      yPos = self.game.standardYPos
             
 
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
@@ -95,7 +95,7 @@ class Player:
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
     def projectileDistance(self, proj):
-        dist = abs(Projectile.getX() - Game.getOtherPlayer().getX()) - (Game.getBallSize()/2 + Game.getBallSize())
+        dist = abs(Projectile.getX() - Game.getOtherPlayer().getX()) - (Game.getBallSize()/2 + Game.getCannonSize()/2)
         if(dist <= 0): return 0
         return dist
 
@@ -124,7 +124,7 @@ class Player:
 
     """ The x-position of the centre of this players cannon """
     def getX(self):
-        return self.position_x
+        return self.xPos
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):

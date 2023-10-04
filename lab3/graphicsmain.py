@@ -12,17 +12,25 @@ class GameGraphics:
         
         # draw the terrain
         # TODO: Draw a line from (-110,0) to (110,0)
-
+        
+        Line(Point(-110,0),Point(110,0))._draw(self.win, {}) #draws a line from x -110 to 110
         self.draw_cannons = [self.drawCanon(0), self.drawCanon(1)]
         self.draw_scores  = [self.drawScore(0), self.drawScore(1)]
         self.draw_projs   = [None, None]
 
     def drawCanon(self,playerNr):
         # draw the cannon
+        player = self.game.getPlayers()[playerNr]
+        x = player.getX()
+        color = player.getColor()
+        self.game.getCannonSize()
+        rect = Rectangle(Point(x - self.game.getCannonSize()/2, 0),Point(x + self.game.getCannonSize()/2, self.game.getCannonSize()))
+        rect._draw(self.win, {})
+        rect.setFill(color)
         # TODO: draw a square with the size of the cannon with the color
         # and the position of the player with number playerNr.
         # After the drawing, return the rectangle object.
-        return None
+        #return self.Rectangle()
 
     def drawScore(self,playerNr):
         # draw the score
@@ -30,7 +38,9 @@ class GameGraphics:
         # for player number playerNr. The text should be placed under
         # the corresponding cannon. After the drawing,
         # return the text object.
-        return None
+        p = self.game.getPlayers()[playerNr]
+        text = Text(Point(p.getX(), 50), "Score: " + str(p.getScore()))
+        return text
 
     def fire(self, angle, vel):
         player = self.game.getCurrentPlayer()
