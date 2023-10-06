@@ -1,12 +1,14 @@
 from gamemodel import *
 from graphics import *
 
-#print('g̶̨̛̛͈̪̠̞̩͉͔̮̫͂̅͌̓͑͛̏͒́̊͌̆̀̃̀̍̊̽̃̈́̽̉̽̒̾̊̿̾̏̓͛̏̊͑̈́̔̚̚͘͝͝ȧ̸͚̱͕̲͙̙͓̭͉͇̬͇̪̫̦̹̦̪̀̂̄͜͜m̵̧̨̦̭͈͇̜̮̗̬̤̬̤͔͎̺͕̗̥̩͈̻̳̭̲̭̜̻̼͚̻͎̺̞͙̲̙̗̰̪͊͗̈͌̑̇͐̌̈́̔̿̅̾͊̈͜ͅͅẻ̶̢̧̡̨̛̛̛̲̜̜̩̦͓͇̬͍̜̘̖͉̗̠̱̟̥͎͇͓͉̳̫̻̮̮͔͕̪̙͓͇͍̟̰͉͊͌̔͋̿̅̽̔͌́̌́͗͒͂́͊̀̎̋̋̆̕̕͜͜͝ͅ ̸̧̛̱̠̭̠̖͍̜̤͙̥͕̭̟͖̬͛́͒̉̄̿͒̉̎̊̓̈́̋͂͐͒͑̾̃̋̇̈́̑̃͗͒̇̐̀̐͂̉̕̕̚͜͜͠͠͝͝į̸̨̨̢̨̧̡̛̳͔̯̯͈͕̗̼͖͙̫̠̻̭̙̜̭͚͎̝̥̟̟͙̘̖̟͎̰̟̣̪͖̘͔͈̖͎̞̆́́̊̌̑͗̉͆̇̐̾̄͂͋̾̽͑̈́͌̓̈́̾̽̓̂͌͂̒͐̄̈́͂̂́̐͒͆̅̃͌̽̍͘͘͜͝ͅň̶̨̨̡͔̫̱͚͎̗͓̺̬̱̲͎͕̬̰͈͈͖͔̣̼͍̯̦͇̹͎͚̭͙̈́́͌̋͘͜ͅͅĭ̷̳͈̻̮͎̜̱̍͒̀̌̆͒͆̾̀̐͑͊̄̔̄͛͋̋̈̚͘͠t̶̨̞͖͇͛͂̄̊͌̇̃̈͌̚͝͝ͅí̴̢̜͈͔̱̤̖̯̎͋̂͒̄̑̏͒͐͋̒ͅą̶̧̡͇̱̘̬͔̼͇̹̫͎̮̗̝͙̖̜̥̙͎͔͉͖͉̣͙̙̟̦̤̩̙̆͌͊̉̔̀̑̆͑́͋̾͒͛̚͝t̵̡̡̢̤̗̠̮̰̐ȩ̸̢̛͚͙͙̮͈̺͍͕̖̜̪͖̠̞͚͕͇́̈́̀̍̔͋̿͑͆̓̑̀͑̌̽͋̓̃̿̒̓͛̾̉̐͌͛͘̕͘͜͝͝d̶̡̨̡̛̛̛̛͕͍̭̗̝̤̬̰̗̪̮̥̘̦͉̘̻̲̗͙͎͍͌̅̓̿̔̊̆̉̿̆̌̂͗̇͐̒̓̀̂̀̈̈́̓̎̂͌̀͆͘͝͝͠ͅ')
+
 
 class GameGraphics:
     def __init__(self, game):
         self.game = game
 
+        print('g̵̨͖̞͈̮͘a̴̛̭͔̤m̵̥̻̙̀̇̕ê̷͈̋̔̅̍ͅ ̷̡̭̤͗͑̓͆ǐ̷̛̪̖̯͒̽̄n̵̡̡͎̖̲̏̈́̉ȋ̸̬̦̹t̸̛̘̿̾̔i̸͇̰͎͑̐̉̾a̷͉̬̪̥͒̉͝ͅt̶̰̼̿é̷͚͊̂̏̏ḑ̶̊͛')
+        
         # open the window
         self.win = GraphWin("Cannon game" , 640, 480, autoflush=False)
         self.win.setCoords(-110, -10, 110, 155)
@@ -17,7 +19,7 @@ class GameGraphics:
         Line(Point(-110,0),Point(110,0))._draw(self.win, {}) #draws a line from x -110 to 110
         self.draw_cannons = [self.drawCanon(0), self.drawCanon(1)]
         self.draw_scores  = [self.drawScore(0), self.drawScore(1)]
-        self.draw_projs   = [None,None ]
+        self.draw_projs   = [None,None]
 
     def drawCanon(self,playerNr):
         # draw the cannon
@@ -62,7 +64,7 @@ class GameGraphics:
         BALLS = player.game.getBallSize()
         circle = Circle(Point(circle_X, circle_Y), BALLS) 
         self.draw_projs[player.game.getCurrentPlayerNumber()] = circle
-        circle.setFill(player.game.GetColor())
+        circle.setFill(player.getColor())
         circle.draw(self.win)
 
         while proj.isMoving():
@@ -80,7 +82,7 @@ class GameGraphics:
 
     def updateScore(self,playerNr):
         self.draw_scores[playerNr].undraw()
-        self.drawScore(playerNr)
+        self.draw_scores[playerNr] = self.drawScore(playerNr)
         
 
     def play(self):
@@ -107,26 +109,26 @@ class GameGraphics:
 
             if distance == 0.0:
                 player.increaseScore()
-                self.explosion()
+                self.explosion(proj)
                 self.updateScore(self.game.getCurrentPlayerNumber())
                 self.game.newRound()
 
             self.game.nextPlayer()
 
 
-    def explosion(self):
-        Round_Object_Size = self.game.GetBallsize()
-        exp_center = Point(self.getOtherPlayer().get.xPos(), self.getOtherPlayer().get.YPos())
+    def explosion(self, proj):
+        exp_center = Point(proj.getX(), proj.getY())
         exp_circle_radius = 2
-        for _ in range(50):
-            if exp_circle is not None:
-                exp_circle.undraw()
-
+        exp_circle = Circle(exp_center, exp_circle_radius)
+        
+        while exp_circle_radius < self.game.getCannonSize() * 2:
+            exp_circle.undraw()
+            exp_circle_radius += 0.8
             exp_circle = Circle(exp_center, exp_circle_radius)
-            exp_circle_radius += 1
+            exp_circle.setFill(self.game.getCurrentPlayer().getColor())
             exp_circle.draw(self.win)
             update(50)
-
+        exp_circle.undraw()
 
 class InputDialog:
     def __init__ (self, angle, vel, wind):

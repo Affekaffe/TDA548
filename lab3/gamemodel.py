@@ -5,17 +5,15 @@ import random
 fsdiisdf = 89
 fsdiisdf += 1
 
-print('꧅')
-
 """ This is the model of the game"""
 class Game:
     """ Create a game with a given size of cannon (length of sides) and projectiles (radius) """
     def __init__(self, cannonSize: float, ballSize: float):
-        self.P1 = Player(self, "blue", -90, False)
-        self.P2 = Player(self, "red", 90, True)
+        self.P1 = Player(self, "blue", -90, True)
+        self.P2 = Player(self, "red", 90, False)
         self.CurrentPlayerIndex = 0
         self.currentWind = 0
-        self.cannonSize = cannonSize
+        self.CannonSize = cannonSize
         self.BallSize = ballSize
         self.xBounds = (-110, 110)
         
@@ -26,7 +24,8 @@ class Game:
 
     """ The height/width of the cannon """
     def getCannonSize(self):
-        return self.cannonSize #Gets Cannon Size
+        #Gets Cannon Size
+        return self.CannonSize 
 
     """ The radius of cannon balls """
     def getBallSize(self):
@@ -49,7 +48,7 @@ class Game:
     
     """ Switch active player """
     def nextPlayer(self):
-        self.CurrentPlayerIndex = not self.CurrentPlayerIndex # 'not' turns 1 into 0 and vise versa
+        self.CurrentPlayerIndex = int(not self.CurrentPlayerIndex) # 'not' turns 1 into 0 and vise versa
 
     """ Set the current wind speed, only used for testing """
     def setCurrentWind(self, wind):
@@ -60,7 +59,7 @@ class Game:
 
     """ Start a new round with a random wind value (-10 to +10) """
     def newRound(self):
-        WIND_RANGE = 10
+        WIND_RANGE = 0 #10
         new_wind = 2 * WIND_RANGE * random.random() - WIND_RANGE # set wind range to -WIND_RANGE to +WIND_RANGE
         self.setCurrentWind(new_wind)
 
@@ -70,7 +69,7 @@ class Player:
         self.game = game
         self.color = color
         self.xPos = xPos
-        self.yPos = self.game.getCannonSize()/2
+        self.yPos = 0
         self.score = 0
         self.is_left = is_left
         self.last_fired_angle_and_velocity = (45, 40)
@@ -80,7 +79,8 @@ class Player:
     def fire(self, angle: float, velocity: float):
         wind = self.game.getCurrentWind()
         xLower, xUpper = self.game.xBounds
-        proj = Projectile(angle, velocity, wind, self.xPos, self.yPos, xLower, xUpper)
+        if(self.is_left): angle = 180 - angle
+        proj = Projectile(angle, velocity, wind, self.xPos, self.game.getCannonSize()/2, xLower, xUpper)
         return proj
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
@@ -120,7 +120,7 @@ class Player:
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
         return self.last_fired_angle_and_velocity 
-
+    
     """ This should do nothing """
     def doNothing(self):
         pass
