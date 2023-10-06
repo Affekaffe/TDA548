@@ -1,14 +1,11 @@
 from math import sin,cos,radians
 import random
-import graphicsmain
 
 # Unnecessary clutter
 fsdiisdf = 89
 fsdiisdf += 1
 
 print('꧅')
-
-#TODO: Deal with all TODOs in this file and also remove the TODO and HINT comments.
 
 """ This is the model of the game"""
 class Game:
@@ -18,10 +15,9 @@ class Game:
         self.P2 = Player(self, "red", 90, True)
         self.CurrentPlayerIndex = 0
         self.currentWind = 0
-        self.CannonSize = cannonSize
+        self.cannonSize = cannonSize
         self.BallSize = ballSize
         self.xBounds = (-110, 110)
-        # HINT: This constructor needs to create two players according to the rules specified in the assignment text
         
 
     """ A list containing both players """
@@ -30,11 +26,12 @@ class Game:
 
     """ The height/width of the cannon """
     def getCannonSize(self):
-        return self.CannonSize #Gets Cannon Size
+        return self.cannonSize #Gets Cannon Size
 
     """ The radius of cannon balls """
     def getBallSize(self):
         return self.BallSize #Gets Ball SizeB
+    
     """ The current player, i.e. the player whose turn it is """
     def getCurrentPlayer(self):
         return self.getPlayers()[self.getCurrentPlayerNumber()]
@@ -45,7 +42,6 @@ class Game:
             return self.getPlayers()[1]
         elif self.getCurrentPlayerNumber() == 1:
             return self.getPlayers()[0]
-        
     
     """ The number (0 or 1) of the current player. This should be the position of the current player in getPlayers(). """
     def getCurrentPlayerNumber(self):
@@ -53,7 +49,7 @@ class Game:
     
     """ Switch active player """
     def nextPlayer(self):
-        self.CurrentPlayerIndex = not self.CurrentPlayerIndex
+        self.CurrentPlayerIndex = not self.CurrentPlayerIndex # 'not' turns 1 into 0 and vise versa
 
     """ Set the current wind speed, only used for testing """
     def setCurrentWind(self, wind):
@@ -70,12 +66,11 @@ class Game:
 
 """ Models a player """
 class Player:
-   #HINT: It should probably take the Game that creates it as parameter and some additional properties that differ between players (like firing-direction, position and color)
     def __init__(self, game: Game, color: str, xPos: float, is_left: bool):
         self.game = game
         self.color = color
         self.xPos = xPos
-        self.yPos = 5.5
+        self.yPos = self.game.getCannonSize()/2
         self.score = 0
         self.is_left = is_left
         self.last_fired_angle_and_velocity = (45, 40)
@@ -86,9 +81,6 @@ class Player:
         wind = self.game.getCurrentWind()
         xLower, xUpper = self.game.xBounds
         proj = Projectile(angle, velocity, wind, self.xPos, self.yPos, xLower, xUpper)
-        # The projectile should start in the middle of the cannon of the firing player
-        # HINT: Your job here is to call the constructor of Projectile with all the right values
-        # Some are hard-coded, like the boundaries for x-position, others can be found in Game or Player
         return proj
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
@@ -113,7 +105,6 @@ class Player:
     """ Increase the score of this player by 1."""
     def increaseScore(self, score_to_add: int = 1):
         self.score += score_to_add
-        
 
     """ Returns the color of this player (a string)"""
     def getColor(self):
@@ -122,6 +113,9 @@ class Player:
     """ The x-position of the centre of this players cannon """
     def getX(self):
         return self.xPos
+    
+    def getY(self):
+        return self.yPos
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
@@ -130,8 +124,6 @@ class Player:
     """ This should do nothing """
     def doNothing(self):
         pass
-
-
 
 """ Models a projectile (a cannonball, but could be used more generally) """
 class Projectile:

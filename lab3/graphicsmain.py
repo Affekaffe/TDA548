@@ -25,7 +25,7 @@ class GameGraphics:
         x = player.getX()
         color = player.getColor()
         self.game.getCannonSize()
-        rect = Rectangle(Point(x - self.game.getCannonSize()/2, 0),Point(x + self.game.getCannonSize()/2, self.game.getCannonSize()))
+        rect = Rectangle(Point(x - self.game.getCannonSize()/2, 0), Point(x + self.game.getCannonSize()/2, self.game.getCannonSize()))
         rect.setFill(color)
         return rect.draw(self.win)
         # draw a square with the size of the cannon with the color
@@ -53,7 +53,8 @@ class GameGraphics:
 
         # TODO: If the circle for the projectile for the current player
         # is not None, undraw it!
-        if(self.draw_projs[player.game.getCurrentPlayerNumber()] != None): self.draw_projs[player.game.getCurrentPlayerNumber()].undraw()
+        if(self.draw_projs[player.game.getCurrentPlayerNumber()] != None):
+            self.draw_projs[player.game.getCurrentPlayerNumber()].undraw()
 
         # draw the projectile (ball/circle)
         # TODO: Create and draw a new circle with the coordinates of
@@ -61,7 +62,7 @@ class GameGraphics:
         BALLS = player.game.getBallSize()
         circle = Circle(Point(circle_X, circle_Y), BALLS) 
         self.draw_projs[player.game.getCurrentPlayerNumber()] = circle
-        circle.setFill("black")
+        circle.setFill(player.game.GetColor())
         circle.draw(self.win)
 
         while proj.isMoving():
@@ -106,17 +107,31 @@ class GameGraphics:
 
             if distance == 0.0:
                 player.increaseScore()
+                self.explosion()
                 self.updateScore(self.game.getCurrentPlayerNumber())
                 self.game.newRound()
 
             self.game.nextPlayer()
-    def explotion(self)
+
+
+    def explosion(self):
+        Round_Object_Size = self.game.GetBallsize()
+        exp_center = Point(self.getOtherPlayer().get.xPos(), self.getOtherPlayer().get.YPos())
+        exp_circle_radius = 2
+        for _ in range(50):
+            if exp_circle is not None:
+                exp_circle.undraw()
+
+            exp_circle = Circle(exp_center, exp_circle_radius)
+            exp_circle_radius += 1
+            exp_circle.draw(self.win)
+            update(50)
 
 
 class InputDialog:
     def __init__ (self, angle, vel, wind):
         self.win = win = GraphWin("Fire", 200, 300)
-        win.setCoords(0,4.5,4,.5)
+        win.setCoords(0, 4.5, 4, .5)
         Text(Point(1,1), "Angle").draw(win)
         self.angle = Entry(Point(3,1), 5).draw(win)
         self.angle.setText(str(angle))
