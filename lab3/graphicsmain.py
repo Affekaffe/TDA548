@@ -6,8 +6,6 @@ from graphics import *
 class GameGraphics:
     def __init__(self, game):
         self.game = game
-
-        print('g̵̨͖̞͈̮͘a̴̛̭͔̤m̵̥̻̙̀̇̕ê̷͈̋̔̅̍ͅ ̷̡̭̤͗͑̓͆ǐ̷̛̪̖̯͒̽̄n̵̡̡͎̖̲̏̈́̉ȋ̸̬̦̹t̸̛̘̿̾̔i̸͇̰͎͑̐̉̾a̷͉̬̪̥͒̉͝ͅt̶̰̼̿é̷͚͊̂̏̏ḑ̶̊͛')
         
         # open the window
         self.win = GraphWin("Cannon game" , 640, 480, autoflush=False)
@@ -77,6 +75,7 @@ class GameGraphics:
             circle_Y = proj.getY()
 
             update(50)
+            print(circle_Y)
 
         return proj
 
