@@ -1,26 +1,23 @@
 from math import sin,cos,radians
 import random
 
-# Unnecessary clutter
-fsdiisdf = 89
-fsdiisdf += 1
 
 """ This is the model of the game"""
 class Game:
     """ Create a game with a given size of cannon (length of sides) and projectiles (radius) """
     def __init__(self, cannonSize: float, ballSize: float):
-        self.P1 = Player(self, "blue", -90, True)
-        self.P2 = Player(self, "red", 90, False)
+        self.players = [Player(self, "blue", -90, True),Player(self, "red", 90, False)]
+       # self.P2 = Player(self, "red", 90, False)
         self.CurrentPlayerIndex = 0
         self.currentWind = 0
         self.CannonSize = cannonSize
         self.BallSize = ballSize
-        self.xBounds = (-110, 110)
+        
         
 
     """ A list containing both players """
     def getPlayers(self):
-        return [self.P1, self.P2]
+        return self.players
 
     """ The height/width of the cannon """
     def getCannonSize(self):
@@ -59,7 +56,7 @@ class Game:
 
     """ Start a new round with a random wind value (-10 to +10) """
     def newRound(self):
-        WIND_RANGE = 0 #10
+        WIND_RANGE = 10 #10
         new_wind = 2 * WIND_RANGE * random.random() - WIND_RANGE # set wind range to -WIND_RANGE to +WIND_RANGE
         self.setCurrentWind(new_wind)
 
@@ -77,9 +74,11 @@ class Player:
 
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
     def fire(self, angle: float, velocity: float):
+        self.last_fired_angle_and_velocity = (angle, velocity)
+        xBounds = (-110, 110)
         wind = self.game.getCurrentWind()
-        xLower, xUpper = self.game.xBounds
-        if(self.is_left): angle = 180 - angle
+        xLower, xUpper = xBounds
+        if(self.is_left == False): angle = 90 + angle
         proj = Projectile(angle, velocity, wind, self.xPos, self.game.getCannonSize()/2, xLower, xUpper)
         return proj
 
@@ -119,11 +118,7 @@ class Player:
 
     """ The angle and velocity of the last projectile this player fired, initially (45, 40) """
     def getAim(self):
-        return self.last_fired_angle_and_velocity 
-    
-    """ This should do nothing """
-    def doNothing(self):
-        pass
+        return self.last_fired_angle_and_velocity
 
 """ Models a projectile (a cannonball, but could be used more generally) """
 class Projectile:
