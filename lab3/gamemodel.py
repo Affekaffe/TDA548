@@ -1,19 +1,15 @@
 from math import sin,cos,radians
 import random
 
-
 """ This is the model of the game"""
 class Game:
     """ Create a game with a given size of cannon (length of sides) and projectiles (radius) """
     def __init__(self, cannonSize: float, ballSize: float):
-        self.players = [Player(self, "blue", -90, True),Player(self, "red", 90, False)]
-       # self.P2 = Player(self, "red", 90, False)
+        self.players = [Player(self, "blue", -90, True), Player(self, "red", 90, False)]
         self.CurrentPlayerIndex = 0
         self.currentWind = 0
         self.CannonSize = cannonSize
         self.BallSize = ballSize
-        
-        
 
     """ A list containing both players """
     def getPlayers(self):
@@ -45,7 +41,7 @@ class Game:
     
     """ Switch active player """
     def nextPlayer(self):
-        self.CurrentPlayerIndex = int(not self.CurrentPlayerIndex) # 'not' turns 1 into 0 and vise versa
+        self.CurrentPlayerIndex = int(not self.CurrentPlayerIndex) # 'not' turns 1 into 0 and vise versa, turn it into an int just for clarity
 
     """ Set the current wind speed, only used for testing """
     def setCurrentWind(self, wind):
@@ -69,8 +65,7 @@ class Player:
         self.yPos = 0
         self.score = 0
         self.is_left = is_left
-        self.last_fired_angle_and_velocity = (45, 40)
-            
+        self.last_fired_angle_and_velocity = (45, 40)  
 
     """ Create and return a projectile starting at the centre of this players cannon. Replaces any previous projectile for this player. """
     def fire(self, angle: float, velocity: float):
@@ -78,24 +73,16 @@ class Player:
         xBounds = (-110, 110)
         wind = self.game.getCurrentWind()
         xLower, xUpper = xBounds
-        if(self.is_left == False): angle = 90 + angle
+        if(self.is_left == False): angle = 180 - angle
         proj = Projectile(angle, velocity, wind, self.xPos, self.game.getCannonSize()/2, xLower, xUpper)
         return proj
 
     """ Gives the x-distance from this players cannon to a projectile. If the cannon and the projectile touch (assuming the projectile is on the ground and factoring in both cannon and projectile size) this method should return 0"""
     def projectileDistance(self, proj):
-        dist = abs(proj.getX() - self.game.getOtherPlayer().getX()) - (self.game.getBallSize()/2 + self.game.getCannonSize()/2)
+        dist = abs(proj.getX() - self.getX()) - (self.game.getBallSize() + self.game.getCannonSize()/2) # distance from player to projectile
         if(dist <= 0): return 0
+        dist *= (proj.getX() - self.getX()) / abs(proj.getX() - self.getX()) # get the sign of the "distance", the sign being wether the projectile is on the left or the right of the player
         return dist
-
-        
-            
-        
-        
-        # HINT: both self (a Player) and proj (a Projectile) have getX()-methods.
-        # HINT: This method should give a negative value if the projectile missed to the left and positive if it missed to the right.
-        # The distance should be how far the projectile and cannon are from touching, not the distance between their centers.
-        # You probably need to use getCannonSize and getBallSize from Game to compensate for the size of cannons/cannonball
 
     """ The current score of this player """
     def getScore(self):
@@ -120,6 +107,7 @@ class Player:
     def getAim(self):
         return self.last_fired_angle_and_velocity
 
+
 """ Models a projectile (a cannonball, but could be used more generally) """
 class Projectile:
     """
@@ -139,7 +127,6 @@ class Projectile:
         self.xVelocity = velocity*cos(theta)
         self.yVelocity = velocity*sin(theta)
         self.wind = wind
-
 
     """ 
         Advance time by a given number of seconds

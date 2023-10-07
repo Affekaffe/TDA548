@@ -12,14 +12,12 @@ class GameGraphics:
         self.win.setCoords(-110, -10, 110, 155)
         
         # draw the terrain
-        # TODO: Draw a line from (-110,0) to (110,0)
-        
         Line(Point(-110,0),Point(110,0))._draw(self.win, {}) #draws a line from x -110 to 110
         self.draw_cannons = [self.drawCanon(0), self.drawCanon(1)]
         self.draw_scores  = [self.drawScore(0), self.drawScore(1)]
         self.draw_projs   = [None,None]
 
-    def drawCanon(self,playerNr):
+    def drawCanon(self, playerNr):
         # draw the cannon
         player = self.game.getPlayers()[playerNr]
         x = player.getX()
@@ -34,9 +32,6 @@ class GameGraphics:
 
     def drawScore(self,playerNr):
         # draw the score
-        # TODO: draw the text "Score: X", where X is the number of points
-        # for player number playerNr. The text should be placed under
-        # the corresponding cannon. After the drawing,
         # return the text object.
         player = self.game.getPlayers()[playerNr]
         text = Text(Point(player.getX(), -5), "Score: " + str(player.getScore()))
@@ -51,14 +46,12 @@ class GameGraphics:
         circle_Y = proj.getY()
         
 
-        # TODO: If the circle for the projectile for the current player
+        # If the circle for the projectile for the current player
         # is not None, undraw it!
         if(self.draw_projs[player.game.getCurrentPlayerNumber()] != None):
             self.draw_projs[player.game.getCurrentPlayerNumber()].undraw()
 
         # draw the projectile (ball/circle)
-        # TODO: Create and draw a new circle with the coordinates of
-        # the projectile.
         BALLS = player.game.getBallSize()
         circle = Circle(Point(circle_X, circle_Y), BALLS) 
         self.draw_projs[player.game.getCurrentPlayerNumber()] = circle
@@ -75,7 +68,6 @@ class GameGraphics:
             circle_Y = proj.getY()
 
             update(50)
-            print(circle_Y)
 
         return proj
 
@@ -106,12 +98,14 @@ class GameGraphics:
             proj = self.fire(angle, vel)
             distance = other.projectileDistance(proj)
 
+            # Scored a hit
             if distance == 0.0:
                 player.increaseScore()
                 self.explosion(proj)
                 self.updateScore(self.game.getCurrentPlayerNumber())
                 self.game.newRound()
 
+            # Turn ends, next players turn
             self.game.nextPlayer()
 
 
